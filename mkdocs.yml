@@ -1,0 +1,9 @@
+site_name:           LinearManifoldCluster.jl
+repo_url:            https://github.com/wildart/LinearManifoldCluster.jl
+site_description:    Linear Manifold Cluster Generator
+site_author:         Artyom Diky
+theme:               readthedocs
+markdown_extensions: [tables, fenced_code]
+pages:
+    - ['index.md', 'Manual']
+    - ['api/LinearManifoldCluster.md', 'API', 'LinearManifoldCluster']
