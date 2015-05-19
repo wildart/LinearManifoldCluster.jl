@@ -1,7 +1,5 @@
 #Linear Manifold Cluster Generator
 
-[LinearManifoldCluster]() package allows to build multiple linear manifold clusters given a set of parameters which characterize manifold construction.
-
 Model of a $M$-dimensional linear manifold cluster in $\mathbb{R}^N$ can be defined by following random process <a name="lmcm">\[1\]</a>:
 $$
 \mathbf{x} = \mathbf{\mu}^{N \times 1} + \mathbf{B}^{N \times M} \mathbf{\phi}^{M \times 1} + \overline{\mathbf{B}}^{N \times N-M} \mathbf{\varepsilon}^{N-M \times 1}
