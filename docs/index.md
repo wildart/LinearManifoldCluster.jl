@@ -47,15 +47,8 @@ All linear manifold (LM) clusters are generated in a unit hypercube, $[0,1]^N$, 
 - $M_1, \dots, M_n$, a dimensions of generated LM clusters. By default, if dimensions are not specified, first seven clusters will be created with increasing dimensions up to 7 and for the rest of clusters the dimension will not increase.
 - $m_1, \dots, m_n$, a number of points per generated LM clusters. By default, all clusters have 1000 points.
 - $\tau = \[o_{min}, o_{max}\]$, bounds for a LM cluster origin (translation vector) point generation, default values [0.25, 0.75]
-- $\beta$, This parameter can be defined as array of vectors which contains bounds per LM cluster or just vector with bounds used to generate all LM clusters.
-- $\Phi$, a variance of a manifold point distribution (if scalar then same variance is used to generate all LM clusters)
-- *E*, a variance of distribution for an orthogonal compliment extent of manifold points (if scalar than same variance is used to generate all LM clusters)
-
-There are two modes for generating manifolds:
-
-1. User provides explicitly vector of manifold dimensions, and corresponding bounds for each manifold w.r.t. manifold dimensionality.
-2. User provides number of manifolds to generate. In this case, dimensions of manifold calculated incrementally until a manifold dimension is less threshold value which is $N-1$ or *dim_cut* parameter (whichever is less). After dimension threshold is met manifolds will be generated with a dimension equal to the threshold, min($N-1$, *dim_cut*).
-- *dim_cut*, a manifold dimensionality bound. Default value is 7.
+- $\Phi$, ranges for a manifold point distribution (if scalar then the same range is used to generate all LM clusters)
+- *E*, ranges for a distribution of an orthogonal compliment extent of manifold points (if scalar than same range is used to generate all LM clusters)
 
 ## Example
 ```julia
@@ -63,7 +56,7 @@ n = 1000               # number of points in generated manifold
 N = 10                 # space dimensionality
 M = [1,3,4]            # generated manifolds dimensions
 τ = [.25, .75]         # translation vector bounds
-E = .01                # bound on an extend from manifold  for all manifolds)
+E = [.01,.01,.01]      # bound on an extend from manifold  for all manifolds)
 Φ = Vector{Float64}[   # bounds on manifold points (per manifold wrt dims)
     [.3],
     [.2,  .3, .5],

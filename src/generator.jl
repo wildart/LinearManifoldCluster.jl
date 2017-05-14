@@ -3,7 +3,7 @@ using Distributions
 """Generates *n* points at random on a *N*-dimensional ball."""
 function on_ball(N::Int, n::Int)
     Dn = Normal()
-    p = rand(Dn, (N, n))
+    p = rand(Dn, N, n)
     r = sqrt(sumabs2(p,1))
     return p./r
 end

@@ -20,7 +20,7 @@ end
 #translation vectors
 m = 1000
 μ_bounds = [0.25, 0.75]
-@test_throws ErrorException LinearManifoldCluster.translations(N, m, [μ_bounds, 0.])
+@test_throws AssertionError LinearManifoldCluster.translations(N, m, [μ_bounds; 0.])
 μ = LinearManifoldCluster.translations(N, m, μ_bounds)
 # distance from center of unit hypercube to
 # any translation vector should be within bounds
@@ -111,23 +111,3 @@ m = 12
 κ = 1.5
 lmcs, Bs, μs = generate(n,N,m,τ,κ)
 @test length(lmcs) == m
-
-# # save data
-# using DataFrames
-# function write_clusters(fname, lmcs::Vector{Matrix{Float64}}, noise::Bool=true)
-#     m = length(lmcs)
-#     N = size(lmcs[1],1)
-#     df = DataFrame(Float64, 0, 4)
-#     names!(df, [:x, :y, :z, :l])
-#     noise && push!(lmcs, noise(N, m*10))
-#     for i in 1:length(lmcs)
-#         for j in 1:size(lmcs[i],2)
-#             push!(df, [lmcs[i][:,j], i])
-#         end
-#     end
-#     noise && pop!(lmcs)
-#     writetable(fname, df)
-# end
-
-# write_clusters("mfld.csv", lmcs)
-# ;./view3D mfld.csv
