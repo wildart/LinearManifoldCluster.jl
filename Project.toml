@@ -1,0 +1,15 @@
+name = "LinearManifoldCluster"
+uuid = "bbce7156-959c-439b-994c-a81441c91ab7"
+version = "0.2.0"
+
+[deps]
+LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+Distributions = "31c24e10-a181-5473-b8eb-7969acd0382f"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+Distances = "b4f34e82-e78d-54a5-968a-f98e89d6e8f7"
+LMCLUS = "173e3a66-dd8a-5f2e-8a96-8b7ddc4d534d"
+
+[targets]
+test = ["Test", "Distances", "LMCLUS"]

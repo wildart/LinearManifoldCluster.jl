@@ -1,10 +1,7 @@
-using Distributions
-
 """Generates *n* points at random on a *N*-dimensional ball."""
 function on_ball(N::Int, n::Int)
-    Dn = Normal()
-    p = rand(Dn, N, n)
-    r = sqrt(sumabs2(p,1))
+    p = rand(Normal(), N, n)
+    r = sqrt.(sum(abs2, p, dims=1))
     return p./r
 end
 
@@ -12,39 +9,38 @@ end
 function in_ball(N::Int, n::Int)
     X = reshape(rand(Normal(), n*N), N, n)
     Y = rand(Poisson(), n)
-    r = sqrt(Y'+sumabs2(X,1))
+    r = sqrt.(Y' .+ sum(abs2, X, dims=1))
     return X./r
 end
 
 """Generates *m* random *N*-dimensional translation vectors with *μ_bounds* bounds"""
-function translations(N::Int, m::Int, μ_bounds::Vector{Float64})
-    @assert length(μ_bounds) == 2 "Bounds vector must have 2 elements"
+function translations(N::Int, n::Int, μ_bounds::Pair{Float64,Float64})
     o_min, o_max = μ_bounds
     Dτ = Uniform(o_min, o_max)
-    o = on_ball(N, m)
-    τ = rand(Dτ, m)
-    return (o.*τ'+ones(N,m))/2.
+    o = on_ball(N, n)
+    τ = rand(Dτ, n)
+    return (o.*τ' .+ fill(1.0,N,n))./2.
 end
 
 """Generates manifold basis and its complement"""
 function lm_basis(N::Int, M::Int)
     @assert N > M
-    X = randn(N,N+1)
-    Y = (X.-mean(X,2))'/sqrt(N)
-    f = svdfact(Y)
-    f[:V][:,1:M], f[:V][:,(M+1):end]
+    X = rand(Normal(),N,N+1)
+    Y = (X.-mean(X, dims=2))'./sqrt(N)
+    F = svd(Y)
+    F.V[:,1:M], F.V[:,(M+1):end]
 end
 
 """Generates *n* points of a *M*-dimensional linear manifold cluster
 situated in a unit hypercube."""
-function generate_cluster{T<:Distribution}(
+function generate_cluster(
                   n::Int,                   # number of points in generated manifold
                   μ::Vector{Float64},       # manifold translation vector
                   B::Matrix{Float64},       # manifold basis
                   B′::Matrix{Float64},      # orthogonal complement to manifold basis
                   DΦ::Vector{T},  # bound of manifold points
                   DE::Vector{T}   # bound of a point extent from a manifold
-                )
+                ) where T<:Distribution
     N, M = size(B)
     @assert size(B′) == (N, N-M) "NULL space dimention must be $(N-M)"
     @assert length(DΦ) == M
@@ -103,7 +99,7 @@ where *m* is size of parameter *M* """
 function generate(n::Int,                     # number of points in generated manifold
                   N::Int,                     # space dimensionality
                   M::Vector{Int},             # generated manifolds dimensions
-                  τ::Vector{Float64},         # translation vector bounds
+                  τ::Pair{Float64,Float64},   # translation vector bounds
                   Φ::Vector{Vector{Float64}}, # bound of manifold points
                   E::Vector{Vector{Float64}}  # bound of a point extent from a manifold
                 )
@@ -128,7 +124,7 @@ function mdims(N, m, dim_cut::Int = 7)
     M = cumsum(ones(Int,m))
     if m >= N
         n = N >= dim_cut ? dim_cut : N
-        M[n:end] = n
+        M[n:end] .= n
     end
     return M
 end
@@ -138,7 +134,7 @@ where *m* is size of parameter *M* """
 function generate(n::Int,                     # number of points in generated manifold
                   N::Int,                     # space dimensionality
                   M::Vector{Int},             # number of manifolds
-                  τ::Vector{Float64},         # translation vector bounds
+                  τ::Pair{Float64,Float64},   # translation vector bounds
                   κ::Float64
                 )
     m = length(M)
@@ -164,7 +160,7 @@ end
 function generate(n::Int,                     # number of points in generated manifold
                   N::Int,                     # space dimensionality
                   m::Int,                     # number of manifolds
-                  τ::Vector{Float64},         # translation vector bounds
+                  τ::Pair{Float64,Float64},   # translation vector bounds
                   κ::Float64;
                   dim_cut::Int = 7
                 )
