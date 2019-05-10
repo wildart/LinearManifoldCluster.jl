@@ -14,7 +14,7 @@ function in_ball(N::Int, n::Int)
 end
 
 """Generates *m* random *N*-dimensional translation vectors with *μ_bounds* bounds"""
-function translations(N::Int, n::Int, μ_bounds::Pair{Float64,Float64})
+function translations(N::Int, n::Int, μ_bounds::Tuple{Float64,Float64})
     o_min, o_max = μ_bounds
     Dτ = Uniform(o_min, o_max)
     o = on_ball(N, n)
@@ -99,7 +99,7 @@ where *m* is size of parameter *M* """
 function generate(n::Int,                     # number of points in generated manifold
                   N::Int,                     # space dimensionality
                   M::Vector{Int},             # generated manifolds dimensions
-                  τ::Pair{Float64,Float64},   # translation vector bounds
+                  τ::Tuple{Float64,Float64},   # translation vector bounds
                   Φ::Vector{Vector{Float64}}, # bound of manifold points
                   E::Vector{Vector{Float64}}  # bound of a point extent from a manifold
                 )
@@ -134,7 +134,7 @@ where *m* is size of parameter *M* """
 function generate(n::Int,                     # number of points in generated manifold
                   N::Int,                     # space dimensionality
                   M::Vector{Int},             # number of manifolds
-                  τ::Pair{Float64,Float64},   # translation vector bounds
+                  τ::Tuple{Float64,Float64},   # translation vector bounds
                   κ::Float64
                 )
     m = length(M)
