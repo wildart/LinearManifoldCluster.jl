@@ -32,7 +32,7 @@ All linear manifold (LM) clusters are generated in a unit hypercube, $[0,1]^N$, 
     c) Form the basis matrix $\mathbf{B}$ of the linear manifold from first $M$ principal components (columns of matrix $V$).
     d) Form the manifolds basis orthogonal complement matrix $\overline{\mathbf{B}}$ last $N-M$ principal components (columns of matrix $V$).
 
-3. Create a *bounded* linear manifold cluster $C$ of size $n$ using formula [\[1\]](#lmcm) given the translation vector $\mu$, the linear manifold basis $\mathbf{B}$, its orthogonal complement $\overline{\mathbf{B}}$, and bounds $\Phi = \[\Phi_1, \dots, \Phi_M \]$ and $E  = \[E_1, \dots, E_{N-M} \]$. Bounds $\Phi$ and $E$ are vectors that contain intervals  variances (per dimensionlimit the LM cluster by provi characterize  can be scalar values.
+3. Create a *bounded* linear manifold cluster $C$ of size $n$ using formula [\[1\]](#lmcm) given the translation vector $\mu$, the linear manifold basis $\mathbf{B}$, its orthogonal complement $\overline{\mathbf{B}}$, and bounds $\Phi = \[\Phi_1, \dots, \Phi_M \]$ and $E  = \[E_1, \dots, E_{N-M} \]$. Bounds $\Phi$ and $E$ are vectors that contain intervals variances (per dimension to limit the LM cluster extent).
     a) Generate $M$-dimensional vector $\mathbf{\phi}$ where $\phi_i \in \sqcup [0, \Phi_i]$, $i=1,\dots,M$.
     b) Generate ($N-M$)-dimensional vector $\mathbf{\varepsilon}$ where $\varepsilon_i \in \sqcup [0,E_i]$, $i=1,\dots,N-M$.
     c) Calculate coordinates of a LM cluster point $x \in \mathbb{R}^N$ using formula [\[1\]](#lmcm).
