@@ -4,7 +4,7 @@ using Distributions
 using Distances
 using LMCLUS
 using Test
-import Random
+using Random
 
 @testset "Random direction" begin
     n = 1000
@@ -109,7 +109,6 @@ end
         @test size(Bs[i]) == (N,length(Φ[i]))  # bases dimensions
     end
     @test size(μs) == (N,length(M))
-
 
     # multi-manifold generator (scalar)
     n = 1000

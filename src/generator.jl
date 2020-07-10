@@ -99,7 +99,7 @@ where *m* is size of parameter *M* """
 function generate(n::Int,                     # number of points in generated manifold
                   N::Int,                     # space dimensionality
                   M::Vector{Int},             # generated manifolds dimensions
-                  τ::Tuple{Float64,Float64},   # translation vector bounds
+                  τ::Tuple{Float64,Float64},  # translation vector bounds
                   Φ::Vector{Vector{Float64}}, # bound of manifold points
                   E::Vector{Vector{Float64}}  # bound of a point extent from a manifold
                 )
@@ -166,7 +166,7 @@ function generate(n::Int,                     # number of points in generated ma
                 )
     # generate manifold dimensions
     M = mdims(N-1,m,dim_cut)
-    return generate(n, N, M, τ, κ)
+    return generate(n, N, M, (τ.first,τ.second), κ)
 end
 
 function noise(N::Int, n::Int)
