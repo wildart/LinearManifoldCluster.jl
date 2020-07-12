@@ -32,7 +32,7 @@ function lm_basis(N::Int, M::Int)
 end
 
 """Generates *n* points of a *M*-dimensional linear manifold cluster
-situated in a unit hypercube."""
+situated in a hypercube."""
 function generate_cluster(
                   n::Int,                   # number of points in generated manifold
                   μ::Vector{Float64},       # manifold translation vector
@@ -54,7 +54,7 @@ function generate_cluster(
         x = μ + B*ϕ + B′*ɛ
         # check if manifold point outside of unit hypercube
         b = extrema(x)
-        if b[1] < 0 || b[2] > 1.
+        if b[1] < -1 || b[2] > 1.
             continue
         end
         mfld[:,c] = x
@@ -64,7 +64,7 @@ function generate_cluster(
 end
 
 """Generates *n* points of a *M*-dimensional linear manifold cluster
-situated in a unit hypercube."""
+situated in a hypercube."""
 function generate_cluster(
                   n::Int,                   # number of points in generated manifold
                   μ::Vector{Float64},       # manifold translation vector
@@ -73,26 +73,61 @@ function generate_cluster(
                   Φ::Vector{Float64},       # bound of manifold points
                   E::Vector{Float64}        # bound of a point extent from a manifold
                 )
-    DΦ = map(ϕ->Uniform(0., ϕ), Φ)
-    DE = map(ɛ->Uniform(0., ɛ), E)
+    DΦ = map(ϕ->Uniform(-ϕ, ϕ), Φ)
+    DE = map(ɛ->Uniform(-ɛ, ɛ), E)
     return generate_cluster(n, μ, B, B′, DΦ, DE)
 end
 
 """Generates *n* points of a *M*-dimensional linear manifold cluster
-situated in a unit hypercube."""
+situated in a hypercube."""
 function generate_cluster(
                   n::Int,                   # number of points in generated manifold
                   μ::Vector{Float64},       # manifold translation vector
                   B::Matrix{Float64},       # manifold basis
                   B′::Matrix{Float64},      # orthogonal complement to manifold basis
                   Φ::Float64,               # bound of manifold points
-                  E::Float64                # bound of a point extent from a manifold
+                  E::Float64,               # bound of a point extent from a manifold
                 )
     N, M = size(B)
-    DΦ = fill(Uniform(0., Φ), M)
-    DE = fill(Uniform(0., E), N-M)
+    DΦ = fill(Uniform(-Φ, Φ), M)
+    DE = fill(Uniform(-E, E), N-M)
     return generate_cluster(n, μ, B, B′, DΦ, DE)
 end
+
+"""Generates *n* points of a *M*-dimensional linear manifold cluster
+situated in a hypercube using normal distribution."""
+function generate_cluster(
+                  ::Type{Normal},
+                  n::Int,                   # number of points in generated manifold
+                  μ::Vector{Float64},       # manifold translation vector
+                  B::Matrix{Float64},       # full basis
+                  M::Int,                   # cluster dimension
+                  Φ::Float64,               # bound of manifold points
+                  E::Float64,               # bound of a point extent from a manifold
+                )
+    N = size(B,1)
+    DΦ = fill(Normal(0, Φ), M)
+    DE = fill(Normal(0, E), N-M)
+    return generate_cluster(n, μ, B[:,1:M], B[:, M+1:end], DΦ, DE)
+end
+
+"""Generates *n* points of a *M*-dimensional linear manifold cluster
+situated in a hypercube using uniform distribution."""
+function generate_cluster(
+                  ::Type{Uniform},
+                  n::Int,                   # number of points in generated manifold
+                  μ::Vector{Float64},       # manifold translation vector
+                  B::Matrix{Float64},       # full basis
+                  M::Int,                   # cluster dimension
+                  Φ::Float64,               # bound of manifold points
+                  E::Float64,               # bound of a point extent from a manifold
+                )
+    N = size(B,1)
+    DΦ = fill(Uniform(-Φ, Φ), M)
+    DE = fill(Uniform(-E, E), N-M)
+    return generate_cluster(n, μ, B[:,1:M], B[:, M+1:end], DΦ, DE)
+end
+
 
 """ Generates *m* linear manifold clusters
 where *m* is size of parameter *M* """

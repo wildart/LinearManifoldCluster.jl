@@ -1,6 +1,6 @@
 name = "LinearManifoldCluster"
 uuid = "bbce7156-959c-439b-994c-a81441c91ab7"
-version = "0.2.1"
+version = "0.2.2"
 
 [deps]
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
